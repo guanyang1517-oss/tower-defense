@@ -1,0 +1,80 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+    google()
+    maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
+  }
+  dependencies {
+  }
+}
+
+allprojects {
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+
+  idea {
+    module {
+      outputDir file('build/classes/java/main')
+      testOutputDir file('build/classes/java/test')
+    }
+  }
+}
+
+configure(subprojects) {
+  apply plugin: 'java-library'
+  sourceCompatibility = 8
+
+  tasks.register('generateAssetList') {
+    inputs.dir("${project.rootDir}/assets/")
+    File assetsFolder = new File("${project.rootDir}/assets/")
+    File assetsFile = new File(assetsFolder, "assets.txt")
+    assetsFile.delete()
+    fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.sort().each {
+      assetsFile.append(it + "\n")
+    }
+  }
+  processResources.dependsOn 'generateAssetList'
+
+  compileJava {
+    options.incremental = true
+  }
+}
+
+subprojects {
+  version = "$projectVersion"
+  ext.appName = 'TowerDefense'
+  repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url 'https://central.sonatype.com/repository/maven-snapshots/' }
+    maven { url 'https://jitpack.io' }
+  }
+}
+
+eclipse.project.name = 'TowerDefense' + '-parent'
+
+// ============================================================
+// 下面是新增的部分，用于支持中文和核心库
+// ============================================================
+
+project(":core") {
+  apply plugin: "java-library"
+  dependencies {
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    // 添加 FreeType 依赖
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  }
+}
+
+project(":lwjgl3") {
+  apply plugin: "java-library"
+  dependencies {
+    implementation project(":core")
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    // 添加 FreeType Native 依赖
+    implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+  }
+}
