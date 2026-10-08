@@ -280,11 +280,11 @@ npm run dev
 
 ## 开源协议
 
-本项目源代码以 [MIT 协议](LICENSE) 发布，Copyright (c) 2026 yangguan。
+本项目**源代码**以 [MIT 协议](LICENSE) 发布，Copyright (c) 2026 yangguan。
 
-请注意，**MIT 协议只覆盖源代码**。仓库中的美术、音频资源以及 `assets/font/` 下的
-微软雅黑字体（`msyh.ttc`、`msyhbd.ttc`、`msyhl.ttc` 为 Microsoft 所有）**不在 MIT 授权范围内**，
-版权归各自权利人所有，仅用于课程与演示目的。二次分发或商用前请替换为你自己拥有授权的资源。
+请注意 MIT 协议**只覆盖源代码**。仓库中的字体、美术与音频素材不在授权范围内，
+其中 `assets/font/` 下的微软雅黑（`msyh.ttc`、`msyhbd.ttc`、`msyhl.ttc`）为 Microsoft 所有的
+专有字体；`StartupHelper.java` 来自 libGDX 的 gdx-liftoff 脚手架，以 Apache-2.0 分发。
 
-另外，`lwjgl3/src/main/java/com/mygame/td/lwjgl3/StartupHelper.java` 来自 libGDX 的
-gdx-liftoff 脚手架，以 Apache-2.0 协议分发，其文件头已注明该协议仅适用于该文件本身。
+完整的第三方组件清单与替换建议见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+二次分发或商用前请先替换为拥有合法授权的素材。
